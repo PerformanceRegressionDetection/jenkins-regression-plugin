@@ -1,0 +1,63 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define"
+	xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form"
+	xmlns:i="jelly:fmt" xmlns:local="local">
+	<tr>
+        <td><img src="${rootURL}/plugin/myplugin/images/Regress.png" width="48" height="48" alt="${it.displayName} Icon"/></td>
+    	<td>
+	<table>		
+		<td>
+			<table class="regressionTable">
+				<j:if test="${it.regressedTestsSize == 0}">
+					There are no test regressions
+				</j:if>
+				<j:if test="${it.regressedTestsSize > 0}">
+					Regressed tests:
+				</j:if>
+				<j:if test="${it.haveEnoughPreviousBuild == false}">
+					<br/>(Not enough previous test results yet)
+				</j:if>
+				
+				<j:forEach items="${it.regressedTests}" var="jvar_reg_test">
+					<tr class="regressionTable">
+						<td class="regressionTable">
+						<a href="regression/graphs?methodName=${jvar_reg_test.methodName}&amp;className=${jvar_reg_test.className}">
+							${jvar_reg_test.methodName}
+						</a>
+						</td>
+						<td class="regressionTable">
+							${jvar_reg_test.className}
+						</td>
+					</tr>
+				</j:forEach>
+			</table>
+			<a href="regression/allGraphs">show all plots for all tests</a>
+					</td>
+		</table>
+		
+		</td>
+		</tr>		
+
+	<style>
+		p.regressionInfo {padding-bottom: 170px !important;
+		background-position: bottom right;}
+		
+		table.regressionTable {
+			border-collapse: collapse;
+		}
+
+		table.regressionTable, tr.regressionTable, td.regressionTable {
+			border: 1px solid black;
+			padding:3px;
+		}
+		
+		tr.regressionTable:hover{background-color: #f1f1f1}
+	</style>
+	
+	<script>
+		if($('main-table')) {
+		$('main-table').setStyle({ backgroundImage: 'none' });
+		}
+	</script>
+	
+</j:jelly>

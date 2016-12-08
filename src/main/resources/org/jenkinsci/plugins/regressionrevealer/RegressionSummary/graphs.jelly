@@ -1,0 +1,30 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define"
+	xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form"
+	xmlns:i="jelly:fmt" xmlns:local="local">
+	<l:layout title="plots">	
+	<l:header />	
+	<l:side-panel>
+		<l:tasks>
+			<j:set var="baseUrl" value="${request.findAncestor(it).relativePath}"/>
+			<j:set var="buildUrl" value="${h.decompose(request)}" />
+			<l:task href="${buildUrl.baseUrl}" icon="icon-up icon-md" title="${%Back to Build}"/>
+		</l:tasks>
+	</l:side-panel> 
+	
+	<l:main-panel>
+	<div>		
+		<j:forEach items="${request.parameterMap}" var="param">
+			<j:if test="${param.key == &quot;methodName&quot;}">
+				<j:set var="method" value="${param.value[0]}"/>
+			</j:if>
+			
+			<j:if test="${param.key == &quot;className&quot;}">
+				<j:set var="cls" value="${param.value[0]}"/>
+			</j:if>
+		</j:forEach>		
+		<img src="graph/?methodName=${method}&amp;className=${cls}"/>			
+	</div>	
+	    </l:main-panel>	    
+  </l:layout>
+</j:jelly>
